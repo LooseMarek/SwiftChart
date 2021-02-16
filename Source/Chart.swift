@@ -201,6 +201,11 @@ open class Chart: UIControl {
     open var highlightLineWidth: CGFloat = 0.5
 
     /**
+     Highlight line at X point.
+    */
+    open var highlightLineAtX: Double?
+
+    /**
     Hide the highlight line when touch event ends, e.g. when stop swiping over the chart
     */
     open var hideHighlightLineOnTouchEnd = false
@@ -359,6 +364,9 @@ open class Chart: UIControl {
             drawLabelsAndGridOnYAxis()
         }
 
+        if highlightLineAtX != nil {
+            highlightLine()
+        }
     }
 
     // MARK: - Scaling
@@ -677,6 +685,13 @@ open class Chart: UIControl {
         UIGraphicsEndImageContext()
     }
 
+    fileprivate func highlightLine() {
+        if let pointAtX = highlightLineAtX {
+            let left: CGFloat = leftFromPointAtX(pointAtX)
+            drawHighlightLineFromLeftPosition(left)
+        }
+    }
+
     // MARK: - Touch events
 
     fileprivate func drawHighlightLineFromLeftPosition(_ left: CGFloat) {
@@ -770,6 +785,11 @@ open class Chart: UIControl {
     fileprivate func valueFromPointAtY(_ y: CGFloat) -> Double {
         let value = ((max.y - min.y) / Double(drawingHeight)) * Double(y) + min.y
         return -value
+    }
+
+    fileprivate func leftFromPointAtX(_ x: Double) -> CGFloat {
+        let tickWidth: CGFloat = drawingWidth / CGFloat(max.x)
+        return tickWidth * CGFloat(x)
     }
 
     fileprivate class func findClosestInValues(
