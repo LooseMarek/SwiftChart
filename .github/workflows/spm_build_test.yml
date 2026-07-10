@@ -2,14 +2,14 @@ name: Build and Test
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'Source/**'
       - 'Tests/**'
       - 'Package.swift'
       - 'demo/**'
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - 'Source/**'
       - 'Tests/**'
