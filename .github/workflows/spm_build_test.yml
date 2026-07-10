@@ -1,0 +1,128 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'Source/**'
+      - 'Tests/**'
+      - 'Package.swift'
+      - 'demo/**'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'Source/**'
+      - 'Tests/**'
+      - 'Package.swift'
+      - 'demo/**'
+  workflow_dispatch:
+
+env:
+  LANG: en_US.UTF-8
+  LC_ALL: en_US.UTF-8
+  FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: "120"
+  FASTLANE_XCODEBUILD_SETTINGS_RETRIES: "5"
+
+concurrency:
+  group: ios-simulator-serial
+  cancel-in-progress: false
+
+jobs:
+  changes:
+    name: Detect Changes
+    runs-on: self-hosted
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      spm: ${{ steps.filter.outputs.spm }}
+      demo_app: ${{ steps.filter.outputs.demo_app }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Filter paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            spm:
+              - 'Source/**'
+              - 'Tests/**'
+              - 'Package.swift'
+            demo_app:
+              - 'Source/**'
+              - 'Package.swift'
+              - 'demo/**'
+
+  spm-ios:
+    name: SPM iOS
+    needs: changes
+    if: needs.changes.outputs.spm == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          echo "/opt/homebrew/bin" >> $GITHUB_PATH
+          echo "/opt/homebrew/shims" >> $GITHUB_PATH
+          echo "/usr/bin" >> $GITHUB_PATH
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          export PATH="/opt/homebrew/bin:/opt/homebrew/shims:$PATH"
+          bundle install
+
+      - name: Cleanup Simulator State (important)
+        run: |
+          killall Simulator || true
+          killall -9 com.apple.CoreSimulator.CoreSimulatorService || true
+          xcrun simctl shutdown all || true
+          xcrun simctl erase all || true
+          sleep 5
+
+      - name: Run tests via Fastlane
+        run: |
+          export PATH="/opt/homebrew/bin:/opt/homebrew/shims:$PATH"
+          bundle exec fastlane ios test
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-failures-spm-ios-${{ github.run_id }}
+          path: fastlane/test_output/
+          retention-days: 1
+
+  demo-ios:
+    name: Demo iOS
+    needs: changes
+    if: needs.changes.outputs.demo_app == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          echo "/opt/homebrew/bin" >> $GITHUB_PATH
+          echo "/opt/homebrew/shims" >> $GITHUB_PATH
+          echo "/usr/bin" >> $GITHUB_PATH
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          export PATH="/opt/homebrew/bin:/opt/homebrew/shims:$PATH"
+          bundle install
+
+      - name: Cleanup Simulator State (important)
+        run: |
+          killall Simulator || true
+          killall -9 com.apple.CoreSimulator.CoreSimulatorService || true
+          xcrun simctl shutdown all || true
+          xcrun simctl erase all || true
+          sleep 5
+
+      - name: Build Demo app via Fastlane
+        run: |
+          export PATH="/opt/homebrew/bin:/opt/homebrew/shims:$PATH"
+          bundle exec fastlane ios demo_ios_build
