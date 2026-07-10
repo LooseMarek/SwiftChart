@@ -4,6 +4,7 @@ SwiftChart
 [![Version](https://img.shields.io/cocoapods/v/SwiftChart.svg?style=flat)](http://cocoapods.org/pods/SwiftChart)
 [![License](https://img.shields.io/cocoapods/l/SwiftChart.svg?style=flat)](http://cocoapods.org/pods/SwiftChart)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftChart.svg?style=flat)](http://cocoapods.org/pods/SwiftChart)
+[![Build and Test](https://github.com/LooseMarek/SwiftChart/actions/workflows/spm_build_test.yml/badge.svg)](https://github.com/LooseMarek/SwiftChart/actions/workflows/spm_build_test.yml)
 
 A simple line and area charting library for iOS.
 
@@ -396,6 +397,14 @@ Some tips for debugging an hidden chart:
 * start your app and then debug the UI Hierarchy from the Debug navigator
 * initialize a simple UIView with a colored background instead of the chart to easily see how the view is positioned
 * try to not to nest the chart in a subview for better debugging
+
+# Development
+
+- `Source/` — the `SwiftChart` library target (Swift Package Manager, iOS 18.0+).
+- `Tests/SwiftChartTests/` — unit tests, run via `fastlane ios test` or `xcodebuild test -scheme SwiftChart -destination "platform=iOS Simulator,name=iPhone 17 Pro"`.
+- `demo/` — a demo iOS app consuming `SwiftChart` as a local Swift Package; regenerate its Xcode project with `xcodegen generate` after editing `demo/project.yml`.
+- `docs/` — architecture, ADRs, and product scope documentation.
+- `CLAUDE.md` — agent workflow and coding conventions for this repo.
 
 # License
 
