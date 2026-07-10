@@ -1,0 +1,143 @@
+{
+    "metadata": {
+        "name": "SwiftChart",
+        "projectDescription": "A simple line and area charting library for iOS, distributed as a Swift Package."
+    },
+    "activeComponents": ["spm"],
+    "components": {
+        "iosApp": {
+            "deploymentTarget": "18.0",
+            "swiftVersion": "5.0",
+            "bundleIdentifier": "com.marekloose.Example",
+            "architecturePattern": "none",
+            "localBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+            "ciBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+            "dependencies": [],
+            "testTypes": []
+        },
+        "macosApp": {
+            "deploymentTarget": "14.0",
+            "swiftVersion": "5.9",
+            "bundleIdentifier": "com.marekloose.Example-macOS",
+            "architecturePattern": "none",
+            "localBuildTarget": "platform=macOS",
+            "ciBuildTarget": "platform=macOS",
+            "dependencies": [],
+            "testTypes": []
+        },
+        "appleApp": {
+            "iosDeploymentTarget": "18.0",
+            "macosDeploymentTarget": "14.0",
+            "swiftVersion": "5.9",
+            "bundleIdentifier": "com.marekloose.Example",
+            "architecturePattern": "none",
+            "iosLocalBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+            "iosCiBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+            "macosLocalBuildTarget": "platform=macOS",
+            "macosCiBuildTarget": "platform=macOS",
+            "dependencies": [],
+            "testTypes": []
+        },
+        "androidApp": {
+            "minSdk": 26,
+            "targetSdk": 34,
+            "compileSdk": 34,
+            "applicationId": "com.marekloose.example",
+            "kotlinVersion": "1.9.0",
+            "architecturePattern": "none",
+            "dependencies": [],
+            "testTypes": []
+        },
+        "mobileApp": {
+            "flutterVersion": "3.16.0",
+            "dartVersion": "3.2.0",
+            "androidApplicationId": "com.marekloose.example",
+            "iosBundleIdentifier": "com.marekloose.Example",
+            "iosDeploymentTarget": "18.0",
+            "architecturePattern": "none",
+            "iosLocalBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+            "iosCiBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+            "dependencies": [],
+            "testTypes": []
+        },
+        "crossPlatformApp": {
+            "flutterVersion": "3.16.0",
+            "dartVersion": "3.2.0",
+            "androidApplicationId": "com.marekloose.example",
+            "iosBundleIdentifier": "com.marekloose.Example",
+            "iosDeploymentTarget": "18.0",
+            "webPort": 3000,
+            "architecturePattern": "none",
+            "dependencies": [],
+            "testTypes": []
+        },
+        "api": {
+            "swiftVersion": "5.9",
+            "vaporVersion": "4",
+            "port": 8080,
+            "hosting": "fly.io",
+            "environments": ["staging", "production"],
+            "databaseUrl": "postgres://user:password@localhost:5432/dbname",
+            "dependencies": [],
+            "testTypes": []
+        },
+        "webApp": {
+            "framework": "nextjs",
+            "nodeVersion": "20",
+            "port": 3000,
+            "dependencies": [],
+            "testTypes": []
+        },
+        "promoWeb": {
+            "techStack": "html",
+            "hosting": "github-pages",
+            "customDomain": null,
+            "dependencies": []
+        },
+        "spm": {
+            "packageName": "SwiftChart",
+            "moduleName": "SwiftChart",
+            "swiftVersion": "6.0",
+            "mode": "single",
+            "platforms": [
+                {
+                    "deploymentTarget": "iOS 18.0",
+                    "localBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+                    "ciBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro"
+                }
+            ],
+            "testTypes": ["unit"],
+            "dependencies": [],
+            "demoApp": {
+                "path": "demo",
+                "projectName": "SwiftChartDemo",
+                "bundleIdentifier": "com.marekloose.SwiftChartDemo",
+                "deploymentTarget": "18.0",
+                "localBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+                "ciBuildTarget": "platform=iOS Simulator,name=iPhone 17 Pro",
+                "dependencyMechanism": "local-spm-package"
+            }
+        }
+    },
+    "infrastructure": {
+        "appleTeamId": "9JVYUSJU3D",
+        "gitHub": {
+            "username": "LooseMarek",
+            "private": false,
+            "project": true,
+            "labels": true,
+            "actions": true,
+            "gitignore": true
+        },
+        "fastlane": {
+            "enabled": true,
+            "components": ["spm"],
+            "appleId": "loose.marek@gmail.com"
+        },
+        "readme": true,
+        "claude": {
+            "claudeMd": true,
+            "settingsLocal": true
+        }
+    }
+}
