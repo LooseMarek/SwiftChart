@@ -1,7 +1,0 @@
-source 'https://github.com/CocoaPods/Specs.git'
-use_frameworks!
-
-target "SwiftChart_Example" do
-  platform :ios, "8.3"
-  pod "SwiftChart", :path => "../"
-end
