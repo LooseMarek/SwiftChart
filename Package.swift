@@ -18,6 +18,11 @@ let package = Package(
             name: "SwiftChart",
             path: "Source",
             exclude: []
+        ),
+        .testTarget(
+            name: "SwiftChartTests",
+            dependencies: ["SwiftChart"],
+            path: "Tests/SwiftChartTests"
         )
     ],
     swiftLanguageVersions: [.v5]
